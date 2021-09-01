@@ -11,7 +11,7 @@ localVue.use(VueRouter)
 localVue.use(Vuelidate)
 const router = new VueRouter()
 
-// Mock dependency registratioService
+// Mock dependency registrationService
 jest.mock('@/services/registration')
 
 describe('RegisterPage.vue', () => {

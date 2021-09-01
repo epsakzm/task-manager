@@ -1,5 +1,7 @@
 package com.taskagile.web.payload;
 
+import com.taskagile.domain.application.commands.RegistrationCommand;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,8 +21,8 @@ public class RegistrationPayload {
   @NotNull
   private String password;
 
-  public RegistrationPayload toCommand() {
-    return this;
+  public RegistrationCommand toCommand() {
+    return new RegistrationCommand(this.username, this.emailAddress, this.password);
   }
 
   public String getUsername() {
