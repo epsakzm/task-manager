@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 public abstract class HibernateSupport {
     final EntityManager entityManager;
 
-    HibernateSupport(EntityManager entityManager) {
+    protected HibernateSupport (EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
