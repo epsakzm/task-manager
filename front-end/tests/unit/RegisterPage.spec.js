@@ -11,7 +11,7 @@ localVue.use(VueRouter)
 localVue.use(Vuelidate)
 const router = new VueRouter()
 
-// Mock dependency registrationService
+// Mock dependency registratioService
 jest.mock('@/services/registration')
 
 describe('RegisterPage.vue', () => {
@@ -76,7 +76,7 @@ describe('RegisterPage.vue', () => {
 
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
-    wrapper.setMethods({ submitForm: stub })
+    wrapper.setMethods({submitForm: stub})
     buttonSubmit.trigger('submit')
     expect(stub).toBeCalled()
   })
@@ -91,7 +91,7 @@ describe('RegisterPage.vue', () => {
     wrapper.vm.submitForm()
     expect(registerSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
+    expect(stub).toHaveBeenCalledWith({name: 'login'})
   })
 
   it('should fail it is not a new user', async () => {

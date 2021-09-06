@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
 import VueRouter from 'vue-router'
@@ -15,11 +14,6 @@ const router = new VueRouter()
 jest.mock('@/services/authentication')
 
 describe('LoginPage.vue', () => {
-  it('should render correct contents', () => {
-    const Constructor = Vue.extend(LoginPage)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('h1').textContent)
-      .toEqual('TaskAgile')
   let wrapper
   let fieldUsername
   let fieldPassword
@@ -92,7 +86,7 @@ describe('LoginPage.vue', () => {
     wrapper.vm.submitForm()
     expect(authenticateSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({name: 'HomePage'})
+    expect(stub).toHaveBeenCalledWith({name: 'home'})
   })
 
   it('should fail when credentials are invalid', async () => {
