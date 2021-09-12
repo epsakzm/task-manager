@@ -6,6 +6,11 @@ import org.springframework.util.Assert;
 
 public final class Result {
 
+    public static final String PAYLOAD_ID = "id";
+    public static final String PAYLOAD_NAME = "name";
+    public static final String PAYLOAD_DESCRIPTION = "description";
+    public static final String PAYLOAD_TEAM_ID = "teamId";
+
     private Result() {
     }
 

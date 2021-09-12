@@ -1,6 +1,5 @@
-package com.taskagile.domain.model.user;
+package com.taskagile.domain.model.user.events;
 
-import com.taskagile.domain.model.user.events.UserRegisteredEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -15,5 +14,4 @@ public class UserRegisteredEventHandler {
     public void handleEvent(UserRegisteredEvent event) {
         logger.debug("Handling `{}` registration event", event.getUser().getEmailAddress());
     }
-
 }

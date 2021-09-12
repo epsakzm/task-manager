@@ -5,9 +5,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class RegistrationCommand {
 
-    private String username;
-    private String emailAddress;
-    private String password;
+    private final String username;
+    private final String emailAddress;
+    private final String password;
 
     @Override
     public boolean equals(Object o) {

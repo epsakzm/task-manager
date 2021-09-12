@@ -22,8 +22,8 @@ public class SimpleUser implements Serializable, UserDetails {
         this.password = user.getPassword();
     }
 
-    public long getUserId() {
-        return userId;
+    public UserId getUserId() {
+        return new UserId(userId);
     }
 
     @Override
