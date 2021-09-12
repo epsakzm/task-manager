@@ -126,3 +126,4 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.sw*
+spy.log

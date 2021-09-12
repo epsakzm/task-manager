@@ -1,4 +1,4 @@
-# front-end
+# TaskAgile Front End
 
 ## Project setup
 ```

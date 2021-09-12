@@ -3,7 +3,7 @@
     <PageHeader />
     <div class="boards-container">
       <div class="boards-section">
-        <h2 class="section-title">Personal Boards</h2>
+        <h2 class="section-title">{{ $t('homePage.personalBoards') }}</h2>
         <div class="boards d-flex align-content-start flex-wrap">
           <div class="board list-inline-item" v-for="board in personalBoards"
                v-bind:key="board.id" @click="openBoard(board)">
@@ -12,7 +12,7 @@
           </div>
           <div class="board add list-inline-item" @click="createBoard()">
             <font-awesome-icon icon="plus" />
-            <div>Create New Board</div>
+            <div>{{ $t('homePage.createNewBoard') }}</div>
           </div>
         </div>
       </div>
@@ -26,13 +26,13 @@
           </div>
           <div class="board add list-inline-item" @click="createBoard(team)">
             <font-awesome-icon icon="plus" />
-            <div>Create New Board</div>
+            <div>{{ $t('homePage.createNewBoard') }}</div>
           </div>
         </div>
       </div>
 
       <div class="create-team-wrapper">
-        <button class="btn btn-link" @click="createTeam()">+ Create New Team</button>
+        <button class="btn btn-link" @click="createTeam()">+ {{ $t('homePage.createNewTeam') }}</button>
       </div>
     </div>
     <CreateBoardModal
@@ -48,6 +48,7 @@ import PageHeader from '@/components/PageHeader.vue'
 import CreateBoardModal from '@/modals/CreateBoardModal.vue'
 import CreateTeamModal from '@/modals/CreateTeamModal.vue'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomePage',
   data () {
@@ -87,14 +88,18 @@ export default {
 <style lang="scss" scoped>
 .boards-container {
   padding: 0 35px;
+
   h2 {
     font-size: 18px;
     margin-bottom: 15px;
     font-weight: 400;
   }
+
   .boards-section {
     margin: 30px 10px;
+
     .boards {
+
       .board {
         width: 270px;
         height: 110px;
@@ -104,9 +109,11 @@ export default {
         padding: 15px;
         margin-right: 10px;
         cursor: pointer;
+
         h3 {
           font-size: 16px;
         }
+
         p {
           line-height: 1.2;
           font-size: 90%;
@@ -114,6 +121,7 @@ export default {
           color: rgba(255, 255, 255, 0.70)
         }
       }
+
       .add {
         background-color: #f4f4f4;
         color: #666;
@@ -123,6 +131,7 @@ export default {
       }
     }
   }
+
   .create-team-wrapper {
     .btn-link {
       color: #666;

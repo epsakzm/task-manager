@@ -1,10 +1,10 @@
 <template>
-  <form @submit.prevent="saveTeam">
-    <div class="modal" tabindex="-1" role="dialog" backdrop="static" id="createTeamModal">
+  <form @submit.prevent="addMember">
+    <div class="modal" tabindex="-1" role="dialog" backdrop="static" id="addMemberModal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Create Team</h5>
+            <h5 class="modal-title">Add Member</h5>
             <button type="button" class="close" @click="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -12,14 +12,14 @@
           <div class="modal-body">
             <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
             <div class="form-group">
-              <input type="text" class="form-control" id="teamNameInput" v-model="team.name" placeholder="Team name" maxlength="128">
-              <div class="field-error" v-if="$v.team.name.$dirty">
-                <div class="error" v-if="!$v.team.name.required">Name is required</div>
+              <input type="text" class="form-control" id="usernameOrEmailAddressInput" v-model="usernameOrEmailAddress" placeholder="Username or email address" maxlength="128">
+              <div class="field-error" v-if="$v.usernameOrEmailAddress.$dirty">
+                <div class="error" v-if="!$v.usernameOrEmailAddress.required">This is required</div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-default btn-cancel" @click="close">Cancel</button>
           </div>
         </div>
@@ -31,39 +31,36 @@
 <script>
 import $ from 'jquery'
 import { required } from 'vuelidate/lib/validators'
-import teamService from '@/services/teams'
+import boardService from '@/services/boards'
 
 export default {
-  name: 'CreateTeamModal',
+  name: 'AddMemberModal',
+  props: ['boardId'],
   data () {
     return {
-      team: {
-        name: ''
-      },
+      usernameOrEmailAddress: '',
       errorMessage: ''
     }
   },
   validations: {
-    team: {
-      name: {
-        required
-      }
+    usernameOrEmailAddress: {
+      required
     }
   },
   mounted () {
-    $('#createTeamModal').on('shown.bs.modal', () => {
-      $('#teamNameInput').trigger('focus')
+    $('#addMemberModal').on('shown.bs.modal', () => {
+      $('#usernameOrEmailAddressInput').trigger('focus')
     })
   },
   methods: {
-    saveTeam () {
+    addMember () {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
 
-      teamService.create(this.team).then((createdTeam) => {
-        this.$store.dispatch('addTeam', createdTeam)
+      boardService.addMember(this.boardId, this.usernameOrEmailAddress).then((member) => {
+        this.$emit('added', member)
         this.close()
       }).catch(error => {
         this.errorMessage = error.message
@@ -71,9 +68,9 @@ export default {
     },
     close () {
       this.$v.$reset()
-      this.team.name = ''
+      this.usernameOrEmailAddress = ''
       this.errorMessage = ''
-      $('#createTeamModal').modal('hide')
+      $('#addMemberModal').modal('hide')
     }
   }
 }
@@ -82,7 +79,7 @@ export default {
 <style lang="scss" scoped>
 .modal {
   .modal-dialog {
-    width: 400px;
+    width: 300px;
   }
 }
 </style>

@@ -38,6 +38,7 @@
 import $ from 'jquery'
 import { required } from 'vuelidate/lib/validators'
 import boardService from '@/services/boards'
+
 export default {
   name: 'CreateBoardModal',
   props: ['teamId'],
@@ -71,11 +72,13 @@ export default {
       if (this.$v.$invalid) {
         return
       }
+
       const board = {
         teamId: this.teamId,
         name: this.board.name,
         description: this.board.description
       }
+
       boardService.create(board).then((createdBoard) => {
         this.$store.dispatch('addBoard', createdBoard)
         this.$emit('created', createdBoard.id)
