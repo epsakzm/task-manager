@@ -47,11 +47,13 @@ class UserServiceImplTests {
         String username = "username1";
         String emailAddress = "username1@email.com";
         String password = "password";
+        String firstName = "Test";
+        String lastName = "User";
         doThrow(EmailAddressExistsException.class).when(registrationManagementMock)
-            .register(username, emailAddress, password);
+            .register(username, emailAddress, firstName, lastName, password);
 
         assertThrows(EmailAddressExistsException.class,
-            () -> instance.register(new RegistrationCommand(username, emailAddress, password)));
+            () -> instance.register(new RegistrationCommand(username, emailAddress, firstName, lastName, password)));
     }
 
     @Test
@@ -91,7 +93,7 @@ class UserServiceImplTests {
     @Test
     void loadUserByUsername_existUsername_shouldSucceed() throws IllegalAccessException {
         String existUsername = "ExistUsername";
-        User foundUser = User.create(existUsername, "user@email.com", "EncryptedPassword");
+        User foundUser = User.create(existUsername, "user@email.com", "Test", "User", "EncryptedPassword");
         foundUser.updateName("Test", "User");
         FieldUtils.writeField(foundUser, "id", 1L, true);
         when(userRepositoryMock.findByUsername(existUsername)).thenReturn(foundUser);

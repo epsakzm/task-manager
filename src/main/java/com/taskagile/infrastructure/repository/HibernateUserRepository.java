@@ -1,6 +1,7 @@
 package com.taskagile.infrastructure.repository;
 
 import com.taskagile.domain.model.user.User;
+import com.taskagile.domain.model.user.UserId;
 import com.taskagile.domain.model.user.UserRepository;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,10 @@ public class HibernateUserRepository extends HibernateSupport<User> implements U
         return query.uniqueResult();
     }
 
+    @Override
+    public User findById(UserId userId) {
+        Query<User> query = getSession().createQuery("SELECT u FROM User u WHERE u.id = :id", User.class);
+        query.setParameter("id", userId.value());
+        return query.uniqueResult();
+    }
 }

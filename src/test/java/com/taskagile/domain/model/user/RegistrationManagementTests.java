@@ -28,7 +28,7 @@ class RegistrationManagementTests {
         String password = "myPassword1";
 
         when(repositoryMock.findByUsername(username)).thenReturn(new User());
-        assertThrows(UsernameExistsException.class, () -> instance.register(username, emailAddress, password));
+        assertThrows(UsernameExistsException.class, () -> instance.register(username, emailAddress, "Test", "User", password));
     }
 
     @Test
@@ -38,7 +38,7 @@ class RegistrationManagementTests {
         String password = "password1";
 
         when(repositoryMock.findByEmailAddress(emailAddress)).thenReturn(new User());
-        assertThrows(EmailAddressExistsException.class, () -> instance.register(username, emailAddress, password));
+        assertThrows(EmailAddressExistsException.class, () -> instance.register(username, emailAddress, "Test", "User", password));
     }
 
     @Test
@@ -47,8 +47,8 @@ class RegistrationManagementTests {
         String emailAddress = "Uppercase@email.com";
         String password = "password1";
 
-        instance.register(username, emailAddress, password);
-        User userToSave = User.create(username, emailAddress.toLowerCase(), password);
+        instance.register(username, emailAddress, "Test", "User", password);
+        User userToSave = User.create(username, emailAddress.toLowerCase(), "Test", "User", password);
         verify(repositoryMock).save(userToSave);
     }
 
@@ -58,14 +58,14 @@ class RegistrationManagementTests {
         String emailAddress = "username@email.com";
         String password = "password";
         String encryptedPassword = "EncryptedPassword";
-        User newUser = User.create(username, emailAddress, encryptedPassword);
+        User newUser = User.create(username, emailAddress, "Test", "User", encryptedPassword);
 
         when(repositoryMock.findByUsername(username)).thenReturn(null);
         when(repositoryMock.findByEmailAddress(emailAddress)).thenReturn(null);
         doNothing().when(repositoryMock).save(newUser);
         when(passwordEncryptorMock.encrypt(password)).thenReturn("EncryptedPassword");
 
-        User savedUser = instance.register(username, emailAddress, password);
+        User savedUser = instance.register(username, emailAddress, "Test", "User", password);
         InOrder inOrder = inOrder(repositoryMock);
         inOrder.verify(repositoryMock).findByUsername(username);
         inOrder.verify(repositoryMock).findByEmailAddress(emailAddress);

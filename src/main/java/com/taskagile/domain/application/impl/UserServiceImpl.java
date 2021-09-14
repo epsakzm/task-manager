@@ -31,9 +31,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(UserId userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
     public void register(RegistrationCommand command) throws RegistrationException {
         Assert.notNull(command, "Parameter `command must not be null");
-        User newUser = registrationManagement.register(command.getUsername(), command.getEmailAddress(), command.getPassword());
+        User newUser = registrationManagement.register(command.getUsername(),
+                command.getEmailAddress(),
+                command.getFirstName(),
+                command.getLastName(),
+                command.getPassword());
         sendWelcomeMessage(newUser);
         domainEventPublisher.publish(new UserRegisteredEvent(this, newUser));
     }

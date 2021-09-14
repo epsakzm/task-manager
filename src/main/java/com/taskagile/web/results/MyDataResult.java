@@ -3,16 +3,19 @@ package com.taskagile.web.results;
 import com.taskagile.domain.model.board.Board;
 import com.taskagile.domain.model.team.Team;
 import com.taskagile.domain.model.user.SimpleUser;
+import com.taskagile.domain.model.user.User;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MyDataResult {
 
-    public static ResponseEntity<ApiResult> build(SimpleUser currentUser, List<Team> teams, List<Board> boards) {
+    public static ResponseEntity<ApiResult> build(User user, List<Team> teams, List<Board> boards) {
         return Result.ok(ApiResult.blank()
-            .add("user", ApiResult.of("name", currentUser.getUsername()))
+            .add("user", Map.of("name", user.getFirstName() + " " + user.getLastName()))
             .add("teams", teams.stream().map(TeamResult::new).collect(Collectors.toList()))
             .add("boards", boards.stream().map(BoardResult::new).collect(Collectors.toList())));
     }

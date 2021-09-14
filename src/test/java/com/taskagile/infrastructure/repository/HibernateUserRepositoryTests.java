@@ -19,33 +19,33 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class HibernateUserRepositoryTests {
 
-    @TestConfiguration
-    public static class UserRepositoryTestContextConfiguration {
-
-        @Bean
-        public UserRepository userRepository(EntityManager entityManager) {
-            return new HibernateUserRepository(entityManager);
-        }
-    }
+//    @TestConfiguration
+//    public static class UserRepositoryTestContextConfiguration {
+//
+//        @Bean
+//        public UserRepository userRepository(EntityManager entityManager) {
+//            return new HibernateUserRepository(entityManager);
+//        }
+//    }
 
     @Autowired
     private UserRepository repository;
 
     @Test
     void save_nullUsernameUser_shouldFail() {
-        User invalidUser = User.create(null, "email@email.com", "Password!");
+        User invalidUser = User.create(null, "email@email.com", "Test", "User", "Password!");
         assertThrows(PersistenceException.class, () -> repository.save(invalidUser));
     }
 
     @Test
     void save_nullEmailAddressUser_shouldFail() {
-        User invalidUser = User.create("username1", null, "Password!");
+        User invalidUser = User.create("username1", null, "Test", "User", "Password!");
         assertThrows(PersistenceException.class, () -> repository.save(invalidUser));
     }
 
     @Test
     void save_nullPasswordUser_shouldFail() {
-        User invalidUser = User.create("username1", "email@email.com", null);
+        User invalidUser = User.create("username1", "email@email.com", "Test", "User", null);
         assertThrows(PersistenceException.class, () -> repository.save(invalidUser));
     }
 
@@ -53,7 +53,7 @@ class HibernateUserRepositoryTests {
     void save_validUser_shouldSuccess() {
         String username = "username";
         String emailAddress = "email@email.com";
-        User newUser = User.create(username, emailAddress, "MyPassword");
+        User newUser = User.create(username, emailAddress, "Test", "User", "MyPassword");
         repository.save(newUser);
 
         assertNotNull(newUser.getId(), "New user's id should be generated");
@@ -68,11 +68,11 @@ class HibernateUserRepositoryTests {
     void save_usernameAlreadyExist_shouldFail() {
         String username = "username";
         String emailAddress = "email@email.com";
-        User alreadyExistUser = User.create(username, emailAddress, "MyPassword!");
+        User alreadyExistUser = User.create(username, emailAddress, "Test", "User", "MyPassword!");
         repository.save(alreadyExistUser);
 
         try {
-            User newUser = User.create(username, "new@email.com", "MyPassword!");
+            User newUser = User.create(username, "new@email.com", "Test", "User", "MyPassword!");
             repository.save(newUser);
         } catch (Exception e) {
             assertEquals(ConstraintViolationException.class.toString(), e.getCause().getClass().toString());
@@ -83,11 +83,11 @@ class HibernateUserRepositoryTests {
     void save_emailAddressAlreadyExist_shouldFail() {
         String username = "username";
         String emailAddress = "email@email.com";
-        User alreadyExistUser = User.create(username, emailAddress, "MyPassword!");
+        User alreadyExistUser = User.create(username, emailAddress, "Test", "User", "MyPassword!");
         repository.save(alreadyExistUser);
 
         try {
-            User newUser = User.create("new", emailAddress, "MyPassword!");
+            User newUser = User.create("new", emailAddress, "Test", "User", "MyPassword!");
             repository.save(newUser);
         } catch (Exception e) {
             assertEquals(ConstraintViolationException.class.toString(), e.getCause().getClass().toString());
@@ -98,7 +98,7 @@ class HibernateUserRepositoryTests {
     void findByEmailAddress_exist_shouldReturnResult() {
         String emailAddress = "username@email.com";
         String username = "username";
-        User newUser = User.create(username, emailAddress, "MyPassword!");
+        User newUser = User.create(username, emailAddress, "Test", "User", "MyPassword!");
         repository.save(newUser);
 
         User found = repository.findByEmailAddress(emailAddress);
@@ -109,7 +109,7 @@ class HibernateUserRepositoryTests {
     void findByUsername_exist_shouldReturnResult() {
         String username = "username";
         String emailAddress = "username@email.com";
-        User newUser = User.create(username, emailAddress, "MyPassword!");
+        User newUser = User.create(username, emailAddress, "Test", "User", "MyPassword!");
         repository.save(newUser);
 
         User found = repository.findByUsername(username);

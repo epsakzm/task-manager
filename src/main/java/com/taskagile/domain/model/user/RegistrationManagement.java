@@ -14,14 +14,14 @@ public class RegistrationManagement {
         this.passwordEncryptor = passwordEncryptor;
     }
 
-    public User register(String username, String emailAddress, String password) throws RegistrationException {
+    public User register(String username, String emailAddress, String firstName, String lastName, String password) throws RegistrationException {
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) throw new UsernameExistsException();
         existingUser = userRepository.findByEmailAddress(emailAddress.toLowerCase());
         if (existingUser != null) throw new EmailAddressExistsException();
 
         String encryptedPassword = passwordEncryptor.encrypt(password);
-        User newUser = User.create(username, emailAddress.toLowerCase(), encryptedPassword);
+        User newUser = User.create(username, emailAddress.toLowerCase(), firstName, lastName, encryptedPassword);
         userRepository.save(newUser);
         return newUser;
     }

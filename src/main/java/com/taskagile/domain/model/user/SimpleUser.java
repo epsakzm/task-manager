@@ -17,7 +17,7 @@ public class SimpleUser implements Serializable, UserDetails {
     private String password;
 
     public SimpleUser(User user) {
-        this.userId = user.getId();
+        this.userId = user.getId().value();
         this.username = user.getUsername();
         this.password = user.getPassword();
     }
