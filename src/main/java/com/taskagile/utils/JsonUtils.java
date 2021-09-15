@@ -13,17 +13,13 @@ public final class JsonUtils {
 
     private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
-    private JsonUtils() {
-
-    }
+    private JsonUtils() {}
 
     public static String toJson(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.writeValueAsString(object);
+            return new ObjectMapper().writeValueAsString(object);
         } catch (JsonProcessingException exception) {
-            log.error("Fail to convert object to json ", exception);
-            return null;
+            throw new RuntimeException("JSON 변환 실패 !", exception);
         }
     }
 
@@ -31,7 +27,7 @@ public final class JsonUtils {
         try {
             return new ObjectMapper().readValue(json, clazz);
         } catch (IOException e) {
-            log.error("Failed to convert String '" + json + "' class '" + clazz.getName() + "'", e);
+            log.error("Object 변환 실패 ! '" + json + "' class '" + clazz.getName() + "'", e);
             return null;
         }
     }
