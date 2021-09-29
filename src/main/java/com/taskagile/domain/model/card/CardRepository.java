@@ -11,4 +11,6 @@ public interface CardRepository {
     void save(Card card);
 
     void changePositions(List<CardPosition> cardPositions);
+
+    Card findById(CardId cardId);
 }

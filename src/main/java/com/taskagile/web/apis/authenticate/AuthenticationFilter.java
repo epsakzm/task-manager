@@ -27,20 +27,20 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        log.debug("Processing login request");
+        log.debug("로그인 시도 요청");
 
         String requestBody = IOUtils.toString(request.getReader());
         LoginRequest loginRequest = JsonUtils.toObject(requestBody, LoginRequest.class);
 
         if (loginRequest == null || loginRequest.isInvalid()) {
-            throw new InsufficientAuthenticationException("Invalid authentication request");
+            throw new InsufficientAuthenticationException("인증 요청이 유효하지 않습니다 !");
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
         return this.getAuthenticationManager().authenticate(token);
     }
 
-    static class LoginRequest {
+    private static class LoginRequest {
         private String username;
         private String password;
 

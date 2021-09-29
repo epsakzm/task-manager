@@ -32,18 +32,15 @@ public class BoardApiController {
     private final TeamService teamService;
     private final CardListService cardListService;
     private final CardService cardService;
-    private final UserService userService;
 
     public BoardApiController(BoardService boardService,
                               TeamService teamService,
                               CardListService cardListService,
-                              CardService cardService,
-                              UserService userService) {
+                              CardService cardService) {
         this.boardService = boardService;
         this.teamService = teamService;
         this.cardListService = cardListService;
         this.cardService = cardService;
-        this.userService = userService;
     }
 
     @PostMapping("/api/boards")

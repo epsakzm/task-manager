@@ -1,6 +1,7 @@
 package com.taskagile.config;
 
 import com.taskagile.domain.common.security.AccessDeniedHandlerImpl;
+import com.taskagile.domain.common.security.ApiRequestAccessDeniedExceptionTranslationFilter;
 import com.taskagile.web.apis.authenticate.AuthenticationFilter;
 import com.taskagile.web.apis.authenticate.SimpleAuthenticationFailureHandler;
 import com.taskagile.web.apis.authenticate.SimpleAuthenticationSuccessHandler;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                 .addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(apiRequestExceptionTranslationFilter(), ExceptionTranslationFilter.class)
                 .formLogin()
                     .loginPage("/login")
                     .and()
@@ -85,6 +88,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public AccessDeniedHandler accessDeniedHandler() {
         return new AccessDeniedHandlerImpl();
+    }
+
+    public ApiRequestAccessDeniedExceptionTranslationFilter apiRequestExceptionTranslationFilter() {
+        return new ApiRequestAccessDeniedExceptionTranslationFilter();
     }
 
 }
