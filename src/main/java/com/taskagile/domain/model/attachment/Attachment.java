@@ -3,6 +3,7 @@ package com.taskagile.domain.model.attachment;
 import com.taskagile.domain.common.model.AbstractBaseEntity;
 import com.taskagile.domain.model.card.CardId;
 import com.taskagile.domain.model.user.UserId;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import javax.persistence.*;
 import java.util.Date;
 
+@Getter
 @Entity
 @Table(name = "attachment")
 public class Attachment extends AbstractBaseEntity {

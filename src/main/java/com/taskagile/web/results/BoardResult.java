@@ -6,6 +6,7 @@ import com.taskagile.domain.model.cardlist.CardList;
 import com.taskagile.domain.model.cardlist.CardListId;
 import com.taskagile.domain.model.team.Team;
 import com.taskagile.domain.model.user.User;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
@@ -45,24 +46,21 @@ public class BoardResult {
         return Result.ok(result);
     }
 
+    @Getter
     private static class MemberData {
+
         private long userId;
         private String shortName;
+        private String name;
 
         public MemberData(User user) {
             this.userId = user.getId().value();
-            this.shortName = getShortName();
-        }
-
-        public long getUserId() {
-            return userId;
-        }
-
-        public String getShortName() {
-            return shortName;
+            this.shortName = user.getInitials();
+            this.name = user.getFirstName() + " " + user.getLastName();
         }
     }
 
+    @Getter
     private static class CardListData {
         private long id;
         private String name;
@@ -77,24 +75,9 @@ public class BoardResult {
 
             cards.stream().map(CardData::new).forEach(this.cards::add);
         }
-
-        public long getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        public List<CardData> getCards() {
-            return cards;
-        }
     }
 
+    @Getter
     private static class CardData {
 
         private long id;
@@ -105,18 +88,6 @@ public class BoardResult {
             this.id = card.getId().value();
             this.title = card.getTitle();
             this.position = card.getPosition();
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public int getPosition() {
-            return position;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.taskagile.infrastructure.repository;
 
 import com.taskagile.domain.model.board.BoardId;
 import com.taskagile.domain.model.cardlist.CardList;
+import com.taskagile.domain.model.cardlist.CardListId;
 import com.taskagile.domain.model.cardlist.CardListPosition;
 import com.taskagile.domain.model.cardlist.CardListRepository;
 import org.hibernate.query.NativeQuery;
@@ -49,5 +50,10 @@ public class HibernateCardListRepository extends HibernateSupport<CardList> impl
                 return cardListPositions.size();
             }
         });
+    }
+
+    @Override
+    public CardList findById(CardListId cardListId) {
+        return getSession().find(CardList.class, cardListId.value());
     }
 }

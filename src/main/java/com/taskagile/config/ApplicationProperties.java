@@ -78,6 +78,7 @@ public class ApplicationProperties {
     @Getter
     @Setter
     private static class FileStorageSetting {
+
         private String localRootFolder;
 
         @NotBlank
