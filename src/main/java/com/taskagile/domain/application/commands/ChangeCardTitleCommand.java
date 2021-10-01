@@ -6,9 +6,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ChangeCardTitleCommand {
+public class ChangeCardTitleCommand extends UserCommand {
 
     private CardId cardId;
     private String title;
-
 }

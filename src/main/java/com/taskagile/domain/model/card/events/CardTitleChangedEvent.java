@@ -1,16 +1,21 @@
 package com.taskagile.domain.model.card.events;
 
 import com.taskagile.domain.common.event.DomainEvent;
+import com.taskagile.domain.common.event.TriggeredBy;
 import com.taskagile.domain.model.card.Card;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
-public class CardTitleChangedEvent extends DomainEvent {
+public class CardTitleChangedEvent extends CardDomainEvent {
 
-    private Card card;
+    private String beforeTitle;
+    private String afterTitle;
 
-    public CardTitleChangedEvent(Object source, Card card) {
-        super(source);
-        this.card = card;
+    public CardTitleChangedEvent(Card card, String beforeTitle, TriggeredBy triggeredBy) {
+        super(card.getId(), card.getTitle(), card.getBoardId(), triggeredBy);
+        this.afterTitle = card.getTitle();
+        this.beforeTitle = beforeTitle;
     }
 }

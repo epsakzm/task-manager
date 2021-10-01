@@ -4,9 +4,15 @@ import com.taskagile.domain.application.commands.ChangeCardListPositionsCommand;
 import com.taskagile.domain.application.commands.ChangeCardPositionsCommand;
 import com.taskagile.domain.model.board.BoardId;
 import com.taskagile.domain.model.card.CardPosition;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class ChangeCardPositionsPayload {
 
     private long boardId;
@@ -14,21 +20,5 @@ public class ChangeCardPositionsPayload {
 
     public ChangeCardPositionsCommand toCommand() {
         return new ChangeCardPositionsCommand(new BoardId(boardId), cardPositions);
-    }
-
-    public BoardId getBoardId() {
-        return new BoardId(boardId);
-    }
-
-    public void setBoardId(long boardId) {
-        this.boardId = boardId;
-    }
-
-    public List<CardPosition> getCardPositions() {
-        return cardPositions;
-    }
-
-    public void setCardPositions(List<CardPosition> cardPositions) {
-        this.cardPositions = cardPositions;
     }
 }

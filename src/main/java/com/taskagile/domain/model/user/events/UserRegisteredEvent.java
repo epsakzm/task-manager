@@ -1,46 +1,22 @@
 package com.taskagile.domain.model.user.events;
 
 import com.taskagile.domain.common.event.DomainEvent;
+import com.taskagile.domain.common.event.TriggeredBy;
+import com.taskagile.domain.common.event.TriggeredFrom;
 import com.taskagile.domain.model.user.User;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.util.Assert;
 
+@EqualsAndHashCode
+@ToString
+@Getter
 public class UserRegisteredEvent extends DomainEvent {
 
-    private User user;
-
-    public UserRegisteredEvent(Object source, User user) {
-        super(source);
-        Assert.notNull(user, "Parameter `user` must not be null");
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserRegisteredEvent that = (UserRegisteredEvent) o;
-
-        return new EqualsBuilder().append(user, that.user).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return this.user.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "UserRegisteredEvent{" +
-            "user=" + user +
-            "timestamp=" + getTimestamp() +
-            '}';
+    public UserRegisteredEvent(User user, TriggeredFrom triggeredFrom) {
+        super(user.getId(), triggeredFrom);
     }
 }

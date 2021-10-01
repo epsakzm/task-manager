@@ -2,24 +2,15 @@ package com.taskagile.domain.application.commands;
 
 import com.taskagile.domain.model.board.BoardId;
 import com.taskagile.domain.model.cardlist.CardListPosition;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
-public class ChangeCardListPositionsCommand {
+@Getter
+@AllArgsConstructor
+public class ChangeCardListPositionsCommand extends UserCommand {
 
     private BoardId boardId;
     private List<CardListPosition> cardListPositions;
-
-    public ChangeCardListPositionsCommand(BoardId boardId, List<CardListPosition> cardListPositions) {
-        this.boardId = boardId;
-        this.cardListPositions = cardListPositions;
-    }
-
-    public BoardId getBoardId() {
-        return boardId;
-    }
-
-    public List<CardListPosition> getCardListPositions() {
-        return cardListPositions;
-    }
 }

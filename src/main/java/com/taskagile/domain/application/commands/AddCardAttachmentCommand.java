@@ -7,15 +7,13 @@ import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class AddCardAttachmentCommand {
+public class AddCardAttachmentCommand extends UserCommand {
 
     private CardId cardId;
     private MultipartFile file;
-    private UserId userId;
 
-    public AddCardAttachmentCommand(long cardId, MultipartFile file, UserId userId) {
+    public AddCardAttachmentCommand(long cardId, MultipartFile file) {
         this.cardId = new CardId(cardId);
         this.file = file;
-        this.userId = userId;
     }
 }

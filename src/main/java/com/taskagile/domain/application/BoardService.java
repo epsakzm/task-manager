@@ -1,5 +1,6 @@
 package com.taskagile.domain.application;
 
+import com.taskagile.domain.application.commands.AddBoardMemberCommand;
 import com.taskagile.domain.application.commands.CreateBoardCommand;
 import com.taskagile.domain.model.board.Board;
 import com.taskagile.domain.model.board.BoardId;
@@ -20,5 +21,5 @@ public interface BoardService {
 
     Board createBoard(CreateBoardCommand command);
 
-    User addMember(BoardId boardId, String usernameOrEmailAddress) throws UserNotFoundException;
+    User addMember(AddBoardMemberCommand command) throws UserNotFoundException;
 }

@@ -5,7 +5,7 @@ import com.taskagile.domain.model.user.EmailAddressExistsException;
 import com.taskagile.domain.model.user.UsernameExistsException;
 import com.taskagile.domain.application.UserService;
 import com.taskagile.utils.JsonUtils;
-import com.taskagile.web.payload.RegistrationPayload;
+import com.taskagile.web.payload.RegisterPayload;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -40,7 +40,7 @@ class RegistrationApiControllerTests {
 
     @Test
     public void register_existedUsername_shouldFailAndReturn400() throws Exception {
-        RegistrationPayload payload = new RegistrationPayload();
+        RegisterPayload payload = new RegisterPayload();
         payload.setUsername("exist");
         payload.setEmailAddress("test@taskagile.com");
         payload.setPassword("MyPassword");
@@ -58,7 +58,7 @@ class RegistrationApiControllerTests {
 
     @Test
     public void register_existedEmailAddress_shouldFailAndReturn400() throws Exception {
-        RegistrationPayload payload = new RegistrationPayload();
+        RegisterPayload payload = new RegisterPayload();
         payload.setUsername("test");
         payload.setEmailAddress("exist@taskagile.com");
         payload.setPassword("MyPassword!");
@@ -77,7 +77,7 @@ class RegistrationApiControllerTests {
 
     @Test
     public void register_validPayload_shouldSucceedAndReturn201() throws Exception {
-        RegistrationPayload payload = new RegistrationPayload();
+        RegisterPayload payload = new RegisterPayload();
         payload.setUsername("sunny");
         payload.setEmailAddress("sunny@taskagile.com");
         payload.setPassword("MyPassword!");

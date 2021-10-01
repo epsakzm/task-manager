@@ -7,10 +7,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AddCardCommentCommand {
+public class AddCardCommentCommand extends UserCommand {
 
-    private UserId userId;
     private CardId cardId;
     private String comment;
-
 }

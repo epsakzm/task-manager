@@ -5,8 +5,7 @@ import com.taskagile.domain.application.commands.*;
 import com.taskagile.domain.common.event.DomainEventPublisher;
 import com.taskagile.domain.model.activity.Activity;
 import com.taskagile.domain.model.activity.ActivityRepository;
-import com.taskagile.domain.model.activity.ActivityType;
-import com.taskagile.domain.model.activity.CardActivity;
+import com.taskagile.domain.model.activity.CardActivities;
 import com.taskagile.domain.model.attachment.Attachment;
 import com.taskagile.domain.model.attachment.AttachmentManagement;
 import com.taskagile.domain.model.attachment.AttachmentRepository;
@@ -51,7 +50,7 @@ public class CardServiceImpl implements CardService {
 
         Card card = Card.create(cardList, command.getUserId(), command.getTitle(), command.getPosition());
         cardRepository.save(card);
-        domainEventPublisher.publish(new CardAddedEvent(this, card));
+        domainEventPublisher.publish(new CardAddedEvent(card, command));
         return card;
     }
 
@@ -77,47 +76,38 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void changeCardTitle(ChangeCardTitleCommand command) {
-        Assert.notNull(command, "Parameter `command` must not be null");
-
         Card card = cardRepository.findById(command.getCardId());
-        Assert.notNull(card, "Card of id " + card + " must exist");
+        String beforeTitle = card.getTitle();
         card.changeTitle(command.getTitle());
         cardRepository.save(card);
-        domainEventPublisher.publish(new CardTitleChangedEvent(this, card));
+        domainEventPublisher.publish(new CardTitleChangedEvent(card, beforeTitle, command));
     }
 
     @Override
     public void changeCardDescription(ChangeCardDescriptionCommand command) {
-        Assert.notNull(command, "Parameter `command` must not be null");
-
         Card card = cardRepository.findById(command.getCardId());
-        Assert.notNull(card, "Card of id " + card + " must exist");
+        String beforeDescription = card.getDescription();
         card.changeDescription(command.getDescription());
         cardRepository.save(card);
-        domainEventPublisher.publish(new CardDescriptionChangedEvent(this, card));
+        domainEventPublisher.publish(new CardDescriptionChangedEvent(card, beforeDescription, command));
     }
 
     @Override
     public Activity addComment(AddCardCommentCommand command) {
-        Assert.notNull(command, "Parameter `command` must not be null");
-
         Card card = cardRepository.findById(command.getCardId());
-        Assert.notNull(card, "Card of id " + card + " must exist");
-        CardActivity cardActivity = CardActivity.create(command.getUserId(), card, ActivityType.ADD_COMMENT);
-        cardActivity.addDetail("comment", command.getComment());
-
-        Activity activity = Activity.from(cardActivity);
-        activityRepository.save(activity);
-        return activity;
+        // CardActivities.from
+        Activity cardActivity = CardActivities.from(card, command.getUserId(), command.getComment(), command.getIpAddress());
+        activityRepository.save(cardActivity);
+        return cardActivity;
     }
 
     @Override
     public Attachment addAttachment(AddCardAttachmentCommand command) {
-        Assert.notNull(command, "Parameter `command` must not be null");
+        Card card = cardRepository.findById(command.getCardId());
 
         Attachment attachment = attachmentManagement.save(
                 command.getCardId(), command.getFile(), command.getUserId());
-        domainEventPublisher.publish(new CardAttachmentAddedEvent(this, attachment));
+        domainEventPublisher.publish(new CardAttachmentAddedEvent(card, attachment, command));
         return attachment;
     }
 }

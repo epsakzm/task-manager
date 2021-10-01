@@ -4,10 +4,12 @@ import com.taskagile.domain.model.attachment.Attachment;
 import com.taskagile.domain.model.attachment.AttachmentRepository;
 import com.taskagile.domain.model.card.CardId;
 import org.hibernate.query.NativeQuery;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class HibernateAttachmentRepository extends HibernateSupport<Attachment> implements AttachmentRepository {
 
     protected HibernateAttachmentRepository(EntityManager entityManager) {

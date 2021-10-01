@@ -1,15 +1,13 @@
 package com.taskagile.domain.model.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @Component
 public class UserFinder {
 
-    private UserRepository userRepository;
-
-    public UserFinder(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     public User find(String usernameOrEmailAddress) throws UserNotFoundException {
         User user;

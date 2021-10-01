@@ -1,8 +1,7 @@
 package com.taskagile.web.apis;
 
 import com.taskagile.domain.application.CardService;
-import com.taskagile.domain.application.commands.AddCardAttachmentCommand;
-import com.taskagile.domain.application.commands.AddCardCommentCommand;
+import com.taskagile.domain.application.commands.*;
 import com.taskagile.domain.common.file.FileUrlCreator;
 import com.taskagile.domain.common.security.CurrentUser;
 import com.taskagile.domain.model.activity.Activity;
@@ -19,11 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-public class CardApiController {
+public class CardApiController extends AbstractBaseController {
 
     private final CardService cardService;
     private final CardUpdater cardUpdater;
@@ -31,8 +31,11 @@ public class CardApiController {
 
     @PostMapping("/api/cards")
     public ResponseEntity<ApiResult> addCard(@RequestBody AddCardPayload payload,
-                                             @CurrentUser SimpleUser user) {
-        Card card = cardService.addCard(payload.toCommand(user.getUserId()));
+                                             HttpServletRequest request) {
+        AddCardCommand command = payload.toCommand();
+        Card card = cardService.addCard(command);
+        addTriggeredBy(command, request);
+        // service/controller
         cardUpdater.onCardAdded(payload.getBoardId(), card);
         return AddCardResult.build(card);
     }
@@ -44,7 +47,11 @@ public class CardApiController {
     }
 
     @PostMapping("/api/cards/positions")
-    public ResponseEntity<ApiResult> changeCardPositions(@RequestBody ChangeCardPositionsPayload payload) {
+    public ResponseEntity<ApiResult> changeCardPositions(@RequestBody ChangeCardPositionsPayload payload,
+                                                         HttpServletRequest request) {
+        ChangeCardPositionsCommand command = payload.toCommand();
+        addTriggeredBy(command, request);
+
         cardService.changePositions(payload.toCommand());
         return Result.ok();
     }
@@ -58,7 +65,11 @@ public class CardApiController {
 
     @PutMapping("/api/cards/{cardId}/description")
     public ResponseEntity<ApiResult> changeDescription(@PathVariable long cardId,
-                                                       @RequestBody ChangeCardDescriptionPayload payload) {
+                                                       @RequestBody ChangeCardDescriptionPayload payload,
+                                                       HttpServletRequest request) {
+        ChangeCardDescriptionCommand command = payload.toCommand(cardId);
+        addTriggeredBy(command, request);
+
         cardService.changeCardDescription(payload.toCommand(cardId));
         return Result.ok();
     }
@@ -66,8 +77,9 @@ public class CardApiController {
     @PostMapping("/api/cards/{cardId}/comments")
     public ResponseEntity<ApiResult> addCardComment(@PathVariable long cardId,
                                                     @RequestBody AddCardCommentPayload payload,
-                                                    @CurrentUser SimpleUser currentUser) {
-        AddCardCommentCommand command = payload.toCommand(cardId, currentUser.getUserId().value());
+                                                    HttpServletRequest request) {
+        AddCardCommentCommand command = payload.toCommand(new CardId(cardId));
+        addTriggeredBy(command, request);
         Activity activity = cardService.addComment(command);
         return CommentActivityResult.build(activity);
     }
@@ -81,8 +93,9 @@ public class CardApiController {
     @PostMapping("/api/cards/{cardId}/attachments")
     public ResponseEntity<ApiResult> addAttachment(@PathVariable long cardId,
                                                    @RequestParam("file")MultipartFile file,
-                                                   @CurrentUser SimpleUser currentUser) {
-        AddCardAttachmentCommand command = new AddCardAttachmentCommand(cardId, file, currentUser.getUserId());
+                                                   HttpServletRequest request) {
+        AddCardAttachmentCommand command = new AddCardAttachmentCommand(cardId, file);
+        addTriggeredBy(command, request);
         Attachment attachment = cardService.addAttachment(command);
         return AttachmentResult.build(attachment, fileUrlCreator);
     }

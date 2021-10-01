@@ -4,7 +4,13 @@ import com.taskagile.domain.application.commands.AddCardCommand;
 import com.taskagile.domain.model.board.BoardId;
 import com.taskagile.domain.model.cardlist.CardListId;
 import com.taskagile.domain.model.user.UserId;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class AddCardPayload {
 
     private long boardId;
@@ -12,39 +18,7 @@ public class AddCardPayload {
     private String title;
     private int position;
 
-    public AddCardCommand toCommand(UserId userId) {
-        return new AddCardCommand(new CardListId(cardListId), userId, title, position);
-    }
-
-    public BoardId getBoardId() {
-        return new BoardId(boardId);
-    }
-
-    public void setBoardId(long boardId) {
-        this.boardId = boardId;
-    }
-
-    public long getCardListId() {
-        return cardListId;
-    }
-
-    public void setCardListId(long cardListId) {
-        this.cardListId = cardListId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
+    public AddCardCommand toCommand() {
+        return new AddCardCommand(new CardListId(cardListId), title, position);
     }
 }

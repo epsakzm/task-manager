@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class MeApiController {
 
-    private String realTimeServerUrl;
-    private TokenManager tokenManager;
+    private final String realTimeServerUrl;
+    private final TokenManager tokenManager;
     private final TeamService teamService;
     private final BoardService boardService;
     private final UserService userService;

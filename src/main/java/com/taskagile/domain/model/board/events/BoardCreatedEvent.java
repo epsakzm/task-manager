@@ -1,18 +1,18 @@
 package com.taskagile.domain.model.board.events;
 
 import com.taskagile.domain.common.event.DomainEvent;
+import com.taskagile.domain.common.event.TriggeredBy;
 import com.taskagile.domain.model.board.Board;
+import lombok.Getter;
+import lombok.ToString;
 
-public class BoardCreatedEvent extends DomainEvent {
+@ToString
+@Getter
+public class BoardCreatedEvent extends BoardDomainEvent {
 
-    private Board board;
+    private String boardName;
 
-    public BoardCreatedEvent(Object source, Board board) {
-        super(source);
-        this.board = board;
-    }
-
-    public Board getBoard() {
-        return board;
+    public BoardCreatedEvent(Board board, TriggeredBy triggeredBy) {
+        super(board.getId(), triggeredBy);
     }
 }

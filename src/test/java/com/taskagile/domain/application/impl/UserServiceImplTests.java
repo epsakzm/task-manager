@@ -1,6 +1,6 @@
 package com.taskagile.domain.application.impl;
 
-import com.taskagile.domain.application.commands.RegistrationCommand;
+import com.taskagile.domain.application.commands.RegisterCommand;
 import com.taskagile.domain.common.event.DomainEventPublisher;
 import com.taskagile.domain.common.mail.MailManager;
 import com.taskagile.domain.model.user.*;
@@ -53,7 +53,7 @@ class UserServiceImplTests {
             .register(username, emailAddress, firstName, lastName, password);
 
         assertThrows(EmailAddressExistsException.class,
-            () -> instance.register(new RegistrationCommand(username, emailAddress, firstName, lastName, password)));
+            () -> instance.register(new RegisterCommand(username, emailAddress, firstName, lastName, password)));
     }
 
     @Test

@@ -11,7 +11,7 @@ import java.util.HashMap;
 @Component
 public class CardUpdater {
 
-    public void onCardAdded(BoardId boardId, Card card) {
+    public void onCardAdded(long boardId, Card card) {
         HashMap<String, Object> cardData = new HashMap<>();
         cardData.put("id", card.getId().value());
         cardData.put("title", card.getTitle());
@@ -22,6 +22,6 @@ public class CardUpdater {
         update.put("type", "cardAdded");
         update.put("card", cardData);
 
-        SubscriptionHub.send("/board/" + boardId.value(), JsonUtils.toJson(update));
+        SubscriptionHub.send("/board/" + boardId, JsonUtils.toJson(update));
     }
 }

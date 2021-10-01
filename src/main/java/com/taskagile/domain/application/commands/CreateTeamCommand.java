@@ -1,22 +1,12 @@
 package com.taskagile.domain.application.commands;
 
 import com.taskagile.domain.model.user.UserId;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class CreateTeamCommand {
+@Getter
+@AllArgsConstructor
+public class CreateTeamCommand extends UserCommand {
 
-    private UserId userId;
     private String name;
-
-    public CreateTeamCommand(UserId userId, String name) {
-        this.userId = userId;
-        this.name = name;
-    }
-
-    public UserId getUserId() {
-        return userId;
-    }
-
-    public String getName() {
-        return name;
-    }
 }
