@@ -3,6 +3,7 @@ package com.taskagile.web.apis;
 import com.taskagile.domain.application.*;
 import com.taskagile.domain.application.commands.AddBoardMemberCommand;
 import com.taskagile.domain.application.commands.CreateBoardCommand;
+import com.taskagile.domain.common.file.FileUrlCreator;
 import com.taskagile.domain.common.security.CurrentUser;
 import com.taskagile.domain.model.board.Board;
 import com.taskagile.domain.model.board.BoardId;
@@ -37,6 +38,7 @@ public class BoardApiController extends AbstractBaseController {
     private final TeamService teamService;
     private final CardListService cardListService;
     private final CardService cardService;
+    private final FileUrlCreator fileUrlCreator;
 
     @PostMapping("/api/boards")
     public ResponseEntity<ApiResult> createBoard(@RequestBody CreateBoardPayload payload, HttpServletRequest request) {
@@ -64,7 +66,7 @@ public class BoardApiController extends AbstractBaseController {
         List<CardList> cardLists = cardListService.findByBoardId(boardId);
         List<Card> cards = cardService.findByBoardId(boardId);
 
-        return BoardResult.build(team, board, members, cardLists, cards);
+        return BoardResult.build(team, board, members, cardLists, cards, fileUrlCreator);
     }
 
     @PostMapping("/api/boards/{boardId}/members")

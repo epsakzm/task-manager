@@ -5,12 +5,17 @@ import com.taskagile.domain.model.board.BoardId;
 import com.taskagile.domain.model.cardlist.CardList;
 import com.taskagile.domain.model.cardlist.CardListId;
 import com.taskagile.domain.model.user.UserId;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@ToString
+@Getter
 @Entity
 @Table(name = "card")
 public class Card extends AbstractBaseEntity {
@@ -33,6 +38,9 @@ public class Card extends AbstractBaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "cover_image")
+    private String coverImage;
 
     @Column(name = "position")
     private int position;
@@ -81,24 +89,12 @@ public class Card extends AbstractBaseEntity {
         return new UserId(userId);
     }
 
-    public String getTitle() {
-        return title;
+    public boolean hasCoverImage() {
+        return StringUtils.hasText(coverImage);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public boolean isArchived() {
-        return archived;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
+    public void addCoverImage(String coverImage) {
+        this.coverImage = coverImage;
     }
 
     @Override
@@ -115,20 +111,5 @@ public class Card extends AbstractBaseEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(cardListId).append(userId).append(title).append(position).append(archived).toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Card{" +
-                "id=" + id +
-                ", boardId=" + boardId +
-                ", cardListId=" + cardListId +
-                ", userId=" + userId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", position=" + position +
-                ", archived=" + archived +
-                ", createdDate=" + createdDate +
-                '}';
     }
 }

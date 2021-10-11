@@ -110,7 +110,6 @@ npm-debug.log*
 yarn-error.log*
 yarn-debug.log*
 
-application-dev.properties
 .DS_Store
 /dist
 /tests/e2e/reports/
@@ -127,3 +126,10 @@ selenium-debug.log
 *.sln
 *.sw*
 spy.log
+
+### application properties
+application-production.properties
+application-staging.properties
+application-dev.properties
+docker/*.jar
+env.list

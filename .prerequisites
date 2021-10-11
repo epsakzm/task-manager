@@ -1,0 +1,62 @@
+# mysql
+wget http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+
+sudo yum localinstall mysql57-community-release-el708.noarch.rpm
+
+sudo yum install mysql-community-server
+
+sudo service mysqld start
+
+sudo grep 'temporary password' /var/log/mysqld.log
+
+# mysql -u root -p
+
+# ALTER USER 'root'@'localhost' IDENTIFIED BY ${PASSWORD}
+
+# CREATE DATABASE task_agile CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# CREATE USER 'app_user'@'%' IDENTIFIED BY '12$456!';
+# GRANT ALL PRIVILEGES ON task_agile . * TO 'app_user'@'%';
+# FLUSH PRIVILEGES
+
+# rabbitmq
+wget https://github.com/rabbitmq/erlang-rpm/releases/download/v21.1/erlang-21.1-2.el6.x86_64.rpm
+
+sudo rpm -ivh erlang-21.1-2.el6.x86_64.rpm
+
+wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.8/rabbitmq-server-3.7.8-1.el6.noarch.rpm
+
+sudo rpm -ivh rabbitmq-server-3.7.8-1.el6.noarch.rpm
+
+sudo chkconfig rabbitmq-server on
+
+# sudo rabbitmqctl add_user app_user ${password}
+
+sudo rabbitmqctl set_user_tags app_user administrator
+
+sudo rabbitmqctl set_permissions -p / app_user ".*" ".*" ".*"
+
+sudo rabbitmq-plugins enable rabbitmq_management
+
+sudo service rabbitmq-server restart
+
+# nginx / SSL
+
+sudo yum install nginx
+
+sudo yum install -y certbot python2-certbot-nginx
+
+sudo certbot
+
+# /etc/nginx/nginx.conf
+# http {
+#   ...
+#     server {
+#       server_name ${server_name};
+#       ...
+#       location / {
+#       ...
+#       proxy_pass http://127.0.0.1:8080
+#       ...
+
+# java - jar jenkins.war --httpPort=9090 ...
